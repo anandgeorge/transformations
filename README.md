@@ -43,6 +43,31 @@ where angle refers to the angle of rotation along the specified axes
 
 where sx, sy and sz refer to the shear coefficients along each axis
 
+#### mirrorx(mtx)
+
+mirrors around the yz plane or the x-axis
+
+#### mirrory(mtx)
+
+mirrors around the xz plane or the y-axis
+
+#### mirrorz(mtx)
+
+mirrors around the xy plane or the z-axis
+
+#### projectx(mtx)
+
+projects down to the yz plane
+
+#### projecty(mtx)
+
+projects down to the xz plane
+
+#### projectz(mtx)
+
+projects down to the xy plane
+
+
 ## Examples
 
 Transformations can be applied to points as well as shapes. Points are specified as a 4 x 1 matrix while shapes are specified as a 4 x n matrix. Transformations are also 4 x 1 and 4 x n matrices respectively.
@@ -74,11 +99,11 @@ Transformations can be applied to points as well as shapes. Points are specified
 	│  1.0 │
 	└      ┘
 	iex(4)> shape = Transformations.matrix([
-						[0,1,1,0,0,1,1,0],
-						[0,0,0,0,1,1,1,1],
-						[0,0,1,1,0,0,1,1],
-						[1,1,1,1,1,1,1,1]
-					])
+		[0,1,1,0,0,1,1,0],
+		[0,0,0,0,1,1,1,1],
+		[0,0,1,1,0,0,1,1],
+		[1,1,1,1,1,1,1,1]
+	])
 	#Matrex[4×8]
 	┌                                                              ┐
 	│  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
@@ -97,7 +122,7 @@ Transformations can be applied to points as well as shapes. Points are specified
 
 ```
 
-## Generating documentation
+### Generating documentation
 
 ```elixir
 	mix docs

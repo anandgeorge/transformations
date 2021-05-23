@@ -20,4 +20,17 @@ defmodule TransformationsTest do
     assert transformed == expected
   end
 
+  test "#scale, transition and mirror a shape" do
+    shape = Transformations.matrix([[0,1,1,0,0,1,1,0],[0,0,0,0,1,1,1,1],[0,0,1,1,0,0,1,1],[1,1,1,1,1,1,1,1]])
+    transformed = shape |> Transformations.scale(1,2,3) |> Transformations.transition(3,4,7) |> Transformations.mirrorx()
+    expected = Transformations.matrix([[-3,-4,-4,-3,-3,-4,-4,-3],[ 4,4,4,4,6,6,6,6],[7,7,10,10,7,7,10,10],[1,1,1,1,1,1,1,1]])
+    assert transformed == expected
+  end
+
+  test "#scale, transition, mirror and project a shape" do
+    shape = Transformations.matrix([[0,1,1,0,0,1,1,0],[0,0,0,0,1,1,1,1],[0,0,1,1,0,0,1,1],[1,1,1,1,1,1,1,1]])
+    transformed = shape |> Transformations.scale(1,2,3) |> Transformations.transition(3,4,7) |> Transformations.mirrorx() |> Transformations.projectz()
+    expected = Transformations.matrix([[-3,-4,-4,-3,-3,-4,-4,-3],[ 4,4,4,4,6,6,6,6],[0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1]])
+    assert transformed == expected
+  end
 end

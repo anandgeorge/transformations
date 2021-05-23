@@ -295,5 +295,205 @@ defmodule Transformations do
     |> Matrex.transpose()
     |> Matrex.dot(shz)
     |> Matrex.transpose()    
-  end 
+  end
+
+  @doc """
+  Mirror a shape around the yz plane or the x-axis.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.mirrorx()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0    -1.0    -1.0     0.0     0.0    -1.0    -1.0     0.0 │
+      │  0.0     0.0     0.0     0.0     1.0     1.0     1.0     1.0 │
+      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+
+    ```
+  """
+
+  def mirrorx(mtx) do
+    m = Matrex.new([
+        [-1,0,0,0],
+        [0,1,0,0],
+        [0,0,1,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
+
+
+  @doc """
+  Mirror a shape around the xz plane or the y-axis.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.mirrory()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
+      │  0.0     0.0     0.0     0.0    -1.0    -1.0    -1.0    -1.0 │
+      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def mirrory(mtx) do
+    m = Matrex.new([
+        [1,0,0,0],
+        [0,-1,0,0],
+        [0,0,1,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
+
+  @doc """
+  Mirror a shape around the xy plane or the z-axis.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.mirrorz()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
+      │  0.0     0.0     0.0     0.0     1.0     1.0     1.0     1.0 │
+      │  0.0     0.0    -1.0    -1.0     0.0     0.0    -1.0    -1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def mirrorz(mtx) do
+    m = Matrex.new([
+        [1,0,0,0],
+        [0,1,0,0],
+        [0,0,-1,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
+
+  @doc """
+  Project a shape down to the yz plane.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.projectx()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0 │
+      │  0.0     0.0     0.0     0.0     1.0     1.0     1.0     1.0 │
+      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def projectx(mtx) do
+    m = Matrex.new([
+        [0,0,0,0],
+        [0,1,0,0],
+        [0,0,1,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
+
+  @doc """
+  Project a shape down to the xz plane.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.projecty()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
+      │  0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0 │
+      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def projecty(mtx) do
+    m = Matrex.new([
+        [1,0,0,0],
+        [0,0,0,0],
+        [0,0,1,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
+
+  @doc """
+  Project a shape down to the xy plane.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.projectz()
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
+      │  0.0     0.0     0.0     0.0     1.0     1.0     1.0     1.0 │
+      │  0.0     0.0     0.0     0.0     0.0     0.0     0.0     0.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def projectz(mtx) do
+    m = Matrex.new([
+        [1,0,0,0],
+        [0,1,0,0],
+        [0,0,0,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(m, mtx)
+  end
 end

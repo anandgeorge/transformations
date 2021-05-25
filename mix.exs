@@ -9,8 +9,8 @@ defmodule Transformations.MixProject do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env() == :prod,
       description: "Elixir library for transforming 3D homogeneous coordinates",
-      deps: deps,
-      package: package,
+      deps: deps(),
+      package: package(),
       name: "Transformations",
       source_url: "https://github.com/anandgeorge/transformations"
     ]

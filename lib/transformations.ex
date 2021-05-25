@@ -24,38 +24,6 @@ defmodule Transformations do
     Matrex.new(mtx)
   end
 
-  @doc """
-  Scale a shape by xs, ys and zs along the x, y and z axes.
-
-  ## Examples
-
-    ```elixir
-      iex(1)> shape = Transformations.matrix([
-                        [0,1,1,0,0,1,1,0],
-                        [0,0,0,0,1,1,1,1],
-                        [0,0,1,1,0,0,1,1],
-                        [1,1,1,1,1,1,1,1]
-                      ])
-              shape |> Transformations.scale(1,2,3)
-      #Matrex[4×8]
-      ┌                                                              ┐
-      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
-      │  0.0     0.0     0.0     0.0     2.0     2.0     2.0     2.0 │
-      │  0.0     0.0     3.0     3.0     0.0     0.0     3.0     3.0 │
-      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
-      └                                                              ┘
-    ```
-  """
-
-  def scale(mtx, xs, ys, zs) do
-    s = Matrex.new([
-        [xs,0,0,0],
-        [0,ys,0,0],
-        [0,0,zs,0],
-        [0,0,0,1],
-    ])
-    Matrex.dot(s, mtx)
-  end
 
   @doc """
   Transition (shift) a shape by xt, yt and zt along the x, y and z axes.
@@ -88,6 +56,40 @@ defmodule Transformations do
         [0,0,0,1],
     ])
     Matrex.dot(t, mtx)
+  end
+
+
+  @doc """
+  Scale a shape by xs, ys and zs along the x, y and z axes.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.scale(1,2,3)
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0     1.0     1.0     0.0     0.0     1.0     1.0     0.0 │
+      │  0.0     0.0     0.0     0.0     2.0     2.0     2.0     2.0 │
+      │  0.0     0.0     3.0     3.0     0.0     0.0     3.0     3.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def scale(mtx, xs, ys, zs) do
+    s = Matrex.new([
+        [xs,0,0,0],
+        [0,ys,0,0],
+        [0,0,zs,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(s, mtx)
   end
 
   @doc """
@@ -187,6 +189,85 @@ defmodule Transformations do
         [0,0,0,1],
     ])
     Matrex.dot(rz, mtx)
+  end
+
+  @doc """
+  Rotate a shape by about any arbitrary axis.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.rotate(1,2,3,4,5,6,45)
+      #Matrex[4×8]
+      ┌                                                              ┐
+      │  0.0 0.52532 0.52532     0.0 -0.8509-0.32558-0.32558 -0.8509 │
+      │  0.0  0.8509  0.8509     0.0 0.52532 1.37623 1.37623 0.52532 │
+      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
+      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                              ┘
+    ```
+  """
+
+  def rotate(mtx, x, y, z, p, q, r, angle) do
+    to = Matrex.new([
+        [1,0,0,-x],
+        [0,1,0,-y],
+        [0,0,1,-z],
+        [0,0,0,1],
+    ])
+
+    a = p - x
+    b = q - y
+    c = r - z
+
+    l2 = :math.pow(a, 2) + :math.pow(b, 2) + :math.pow(c, 2)
+    l = :math.sqrt(l2)
+
+    v2 = :math.pow(b, 2) + :math.pow(c, 2)
+    v = :math.sqrt(v2)
+
+    rx = Matrex.new([
+        [1,0,0,0],
+        [0,c/v,-b/v,0],
+        [0,b/v, c/v,0],
+        [0,0,0,1],
+    ])
+
+    ry = Matrex.new([
+        [v/l,0,-a/l,0],
+        [0,1,0,0],
+        [a/l, 0, v/l,0],
+        [0,0,0,1],
+    ])
+
+    ryi = Matrex.new([
+        [v/l,0,a/l,0],
+        [0,1,0,0],
+        [-a/l, 0, v/l,0],
+        [0,0,0,1],
+    ])
+
+    rxi = Matrex.new([
+        [1,0,0,0],
+        [0,c/v,b/v,0],
+        [0,-b/v, c/v,0],
+        [0,0,0,1],
+    ])
+
+    toi = Matrex.new([
+        [1,0,0,x],
+        [0,1,0,y],
+        [0,0,1,z],
+        [0,0,0,1],
+    ])
+
+    Matrex.dot(to, rx) |> Matrex.dot(ry) |> Transformations.rotatez(angle) |> Matrex.dot(ryi) |> Matrex.dot(rxi) |> Matrex.dot(toi) |> Matrex.dot(mtx)
   end
 
   @doc """

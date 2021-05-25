@@ -4,8 +4,7 @@ Transformations is an Elixir library for translating, rotating, reflecting, scal
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `transformations` to your list of dependencies in `mix.exs`:
+The package can be installed by adding `transformations` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -36,6 +35,10 @@ where xs, ys and zs are the scale factors along the x, y and z axes
 #### rotatez(mtx, angle)
 
 where angle refers to the angle of rotation along the specified axes
+
+#### rotate(mtx, x, y, z, p, q, r, angle)
+
+where angle refers to the angle of rotation along a line from x, y, z to p, q, r
 
 #### shearx(mtx, sy, sz)
 #### sheary(mtx, sx, sz)

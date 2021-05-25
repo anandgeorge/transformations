@@ -237,13 +237,13 @@ defmodule Transformations do
                         [1,1,1,1,1,1,1,1]
                       ])
               shape |> Transformations.rotate(1,2,3,4,5,6,45)
-      #Matrex[4×8]
-      ┌                                                              ┐
-      │  0.0 0.52532 0.52532     0.0 -0.8509-0.32558-0.32558 -0.8509 │
-      │  0.0  0.8509  0.8509     0.0 0.52532 1.37623 1.37623 0.52532 │
-      │  0.0     0.0     1.0     1.0     0.0     0.0     1.0     1.0 │
-      │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
-      └                                                              ┘
+      #Matrex[4×8]                      
+      ┌                                                                 ┐
+      │-2.93102-2.24748-2.89697-3.58052-3.26407-2.58052-3.23002-3.91356 │
+      │ 1.01572 1.66522 1.99826 1.34876 1.69927 2.34876 2.68181 2.03231 │
+      │ -1.9153-1.58226-0.89871-1.23176 -2.5648-2.23176-1.54821-1.88125 │
+      │     1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+      └                                                                 ┘
     ```
   """
 
@@ -279,6 +279,13 @@ defmodule Transformations do
         [0,0,0,1],
     ])
 
+    rz = Matrex.new([
+        [:math.cos(angle),-:math.sin(angle),0,0],
+        [:math.sin(angle), :math.cos(angle),0,0],
+        [0,0,1,0],
+        [0,0,0,1],
+    ])
+
     ryi = Matrex.new([
         [v/l,0,a/l,0],
         [0,1,0,0],
@@ -300,7 +307,7 @@ defmodule Transformations do
         [0,0,0,1],
     ])
 
-    Matrex.dot(to, rx) |> Matrex.dot(ry) |> Transformations.rotatez(angle) |> Matrex.dot(ryi) |> Matrex.dot(rxi) |> Matrex.dot(toi) |> Matrex.dot(mtx)
+    Matrex.dot(to, rx) |> Matrex.dot(ry) |> Matrex.dot(rz) |> Matrex.dot(ryi) |> Matrex.dot(rxi) |> Matrex.dot(toi) |> Matrex.dot(mtx)
   end
 
   @doc """

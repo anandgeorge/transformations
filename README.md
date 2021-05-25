@@ -30,6 +30,10 @@ where xt, yt and zt are the x, y and z coordinates for the transform
 
 where xs, ys and zs are the scale factors along the x, y and z axes
 
+#### scaleu(mtx, s)
+
+where s is the scale factor applied to each of x, y and z axes
+
 #### rotatex(mtx, angle)
 #### rotatey(mtx, angle)
 #### rotatez(mtx, angle)

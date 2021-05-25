@@ -93,6 +93,39 @@ defmodule Transformations do
   end
 
   @doc """
+  Scale a shape by s along each of x, y and z axes.
+
+  ## Examples
+
+    ```elixir
+      iex(1)> shape = Transformations.matrix([
+                        [0,1,1,0,0,1,1,0],
+                        [0,0,0,0,1,1,1,1],
+                        [0,0,1,1,0,0,1,1],
+                        [1,1,1,1,1,1,1,1]
+                      ])
+              shape |> Transformations.scaleu(3)
+              #Matrex[4×8]
+              ┌                                                              ┐
+              │  0.0     3.0     3.0     0.0     0.0     3.0     3.0     0.0 │
+              │  0.0     0.0     0.0     0.0     3.0     3.0     3.0     3.0 │
+              │  0.0     0.0     3.0     3.0     0.0     0.0     3.0     3.0 │
+              │  1.0     1.0     1.0     1.0     1.0     1.0     1.0     1.0 │
+              └                                                              ┘
+    ```
+  """
+
+  def scaleu(mtx, s) do
+    s = Matrex.new([
+        [s,0,0,0],
+        [0,s,0,0],
+        [0,0,s,0],
+        [0,0,0,1],
+    ])
+    Matrex.dot(s, mtx)
+  end
+
+  @doc """
   Rotate a shape by angle about the x axis.
 
   ## Examples

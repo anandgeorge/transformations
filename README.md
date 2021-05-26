@@ -38,11 +38,11 @@ where s is the scale factor applied to each of x, y and z axes
 #### rotatey(mtx, angle)
 #### rotatez(mtx, angle)
 
-where angle refers to the angle of rotation along the specified axes
+where angle refers to the angle of rotation along the specified axes in degrees
 
 #### rotate(mtx, x, y, z, p, q, r, angle)
 
-where angle refers to the angle of rotation along a line from x, y, z to p, q, r
+where angle refers to the angle of rotation in degrees along a line from x, y, z to p, q, r
 
 #### shearx(mtx, sy, sz)
 #### sheary(mtx, sx, sz)
